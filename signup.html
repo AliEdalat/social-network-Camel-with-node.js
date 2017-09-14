@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<style>
+form {
+    border: 3px solid #f1f1f1;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+img.avatar {
+    width: 40%;
+    border-radius: 50%;
+}
+
+.container {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+span.sign {
+    float: left;
+    padding-top: 16px;
+}
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+</style>
+<script type="text/javascript">
+var check = function() {
+  if (document.getElementById('password').value ==
+    document.getElementById('confirm_password').value) {
+    document.getElementById('message').style.color = 'green';
+    document.getElementById('message').innerHTML = 'matching';
+    //document.getElementById('submit').disabled = false;
+    document.getElementById('sub_div').style.display = ''
+  } else {
+    document.getElementById('message').style.color = 'red';
+    document.getElementById('message').innerHTML = 'not matching';
+    //document.getElementById('submit').disabled = true;
+    document.getElementById('sub_div').style.display = 'none'
+  }
+}
+</script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+$(function() {
+
+    if (localStorage.chkbx && localStorage.chkbx != '') {
+        $('#remember_me').attr('checked', 'checked');
+        $('#username').val(localStorage.usrname);
+        $('#password').val(localStorage.pass);
+    } else {
+        $('#remember_me').removeAttr('checked');
+        $('#username').val('');
+        $('#password').val('');
+    }
+
+    $('#remember_me').click(function() {
+
+        if ($('#remember_me').is(':checked')) {
+            // save username and password
+            localStorage.usrname = $('#username').val();
+            localStorage.pass = $('#password').val();
+            localStorage.chkbx = $('#remember_me').val();
+        } else {
+            localStorage.usrname = '';
+            localStorage.pass = '';
+            localStorage.chkbx = '';
+        }
+    });
+});
+
+$(function(){
+ $('#username').on('keyup', function(e){
+   
+     var parameters = { search: $(this).val() };
+       $.post( '/searching',parameters, function(data) {
+        //console.log(data)
+        if(data == 'Ok!'){
+            document.getElementById('sub_div').style.display = ''
+            document.getElementById('pass_div').style.display = ''
+            document.getElementById('message').style.color = 'green';
+        }else{
+            document.getElementById('sub_div').style.display = 'none'
+            document.getElementById('pass_div').style.display = 'none'
+            document.getElementById('message').style.color = 'red';
+        }
+        $('#message').html(data);
+       //document.getElementById('message').innerHTML = data;
+     });
+    
+ });
+});
+
+
+</script>
+
+<body>
+
+<h2>Signup Form</h2>
+
+<form action="/signup_new_user" method="post">
+
+  <div class="container">
+    <label><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" id="username" required>
+    <div id="pass_div">
+    <label><b>Password</b></label>
+    <input type="password" id="password" placeholder="Enter Password" name="psw" onkeyup='check();' required>
+    
+    <label><b>Confirm Password</b></label>
+    <input type="password" id="confirm_password" placeholder="Repeat Password" name="repsw" onkeyup='check();' required>
+    </div>
+    <span id='message'></span>
+    <div id="sub_div">
+        <button type="submit" id="submit">Signup</button>
+    
+        <input type="checkbox" checked="checked" id="remember_me"> Remember me
+    </div>
+  </div>
+</form>
+
+</body>
+</html>

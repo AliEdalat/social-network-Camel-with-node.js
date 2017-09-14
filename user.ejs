@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.ul-style {    
+    list-style-type: none;   
+    margin: 0;   
+    padding: 0;    
+    overflow: hidden;
+    /*width: 100%;
+    margin: auto;*/    
+    background-color: #333;
+}
+.li-style {    
+    float: left;    
+    display: block;    
+    color: white;    
+    text-align: center;    
+    padding: 14px 16px;    
+    text-decoration: none;
+}
+.post-ul-style{
+    list-style-type: none;   
+    margin: 0;   
+    padding: 0;    
+    overflow: hidden;       
+}
+.post-li-style{
+    float: left;    
+    display: block;    
+    color: white;    
+    text-align: center;    
+    padding: 14px 16px;    
+    text-decoration: none;   
+}
+li a {    
+    display: block;    
+    color: white;    
+    text-align: center;    
+    padding: 16px 20px;    
+    text-decoration: none;
+}
+li a:hover{
+ font-size: 150%;   
+}
+.search-class{
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+input[type=text] {
+    width: 130px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    position: relative;
+    background-color: white;
+    background-image: url('searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+    width: 50%;
+}
+.signUP{    
+    float: right;    
+    display: block;    
+    color: white;    
+    text-align: center;    
+    padding: 16px 20px;    
+    text-decoration: none;   
+}
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+img.avatar {
+    width: 40%;
+    border-radius: 50%;
+}
+
+.camel-logo{
+    color: white;
+
+}
+.text-style{
+    margin-top: 40px;
+    color: black;
+}
+.button-style{
+    color: gray;
+    margin-left: 80px;   
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    display: block;
+
+}
+
+.container {
+    padding: 2px;
+}
+
+</style>
+<script>
+var name = "<%= name %>";
+document.getElementById("demo").innerHTML =name;
+</script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+/*$(function() {
+    if (window.history && window.history.pushState) {
+        var pathname = window.location.href;
+        window.history.pushState('', null, pathname);
+        $(window).on('popstate', function() {
+            // alert('Back button was pressed.');
+            document.location.href = '';
+
+        });
+    }
+});
+*/
+$(function() {
+    $('#logOut').click(function() {
+        var searchParams = new URLSearchParams(window.location.search); //?anything=123
+        var parameters = { user: searchParams.get("username") };
+        $.post( '/logingOut',parameters);
+    })
+})
+</script>
+</head>
+<body>
+<div class="header">
+<ul class="ul-style">  
+<li class="signUP" class="li-style">
+    <table>
+        <tr>
+            <th><a id="post" class="active" href="/post">post</a></th>
+            <th><a id="logOut" class="active" href="/login">logout</a></th>
+        </tr>
+    </table>
+</li>
+  
+<li class="li-style">
+<!--<div class="imgcontainer">
+    <img src="avatar.png" alt="Avatar" class="avatar">
+</div> 
+<span id="val"><%=name%></span>-->
+<a id="user" href="/users/ali">
+            <img id="userpic" alt="Avatar" class="avatar" src="avatar.png"/><br>
+            <span id="username"><%=name%></span>
+</a>
+</li>
+<li>
+<form>
+  <input type="text" name="search" placeholder="Search..">
+</form>
+
+</li>
+</ul>
+</div>
+
+<% for(var i=0; i<50; i++) { %>
+<div class="container">
+    <ul class="post-ul-style">
+        <li class="post-li-style">
+            <a id="user" href="/users/ali">
+                <img id="userpic" alt="Avatar" class="avatar" src="avatar.png"/><br>
+                <span id="username" class="text-style"><%=name%></span>
+            </a>
+        </li>
+        <li class="post-li-style">
+            <article class="text-style">
+                how can you find your best game in the world?
+                it is a difficult question about a persion .
+                <table>
+                    <tr>
+                        <th><a id="user" href="/users/ali" class="button-style">Comment</a></th>
+                        <th><a id="user" href="/users/ali" class="button-style">Like</a></th>
+                    </tr>
+                </table>
+                
+            </article>
+        </li>
+    </ul>
+</div>
+<% } %>
+
+</body>
+</html>
